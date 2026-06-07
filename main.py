@@ -54,12 +54,35 @@ def calculator():
 
     print("---")
 
+def guessing_game():
+    print("\n--- Guessing Game ---")
+    print("I'm thinking of a number between 1 and 10...")
+
+    import random
+    secret = random.randint(1, 10)
+
+    guess = None
+
+    while guess != secret:
+        try:
+            guess = int(input("Take a guess: "))
+        except ValueError:
+            print("Please enter a number.")
+            continue
+
+        if guess < secret:
+            print("Too low!")
+        elif guess > secret:
+            print("Too high!")
+        else:
+            print("Correct! You guessed it!")
 
 while True:
     print("\n=== MAIN MENU ===")
     print("1. Number Analyzer")
     print("2. Calculator")
-    print("3. Exit")
+    print("3. Guessing Game")
+    print("4. Exit")
 
     choice = input("Choose an option: ")
 
@@ -68,8 +91,11 @@ while True:
 
     elif choice == "2":
         calculator()
-
+        
     elif choice == "3":
+        guessing_game()
+        
+    elif choice == "4":
         print("Goodbye!")
         break
 
