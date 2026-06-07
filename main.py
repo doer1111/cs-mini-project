@@ -56,23 +56,46 @@ def calculator():
 
 def guessing_game():
     print("\n--- Guessing Game ---")
-    print("I'm thinking of a number between 1 and 10...")
 
     import random
-    secret = random.randint(1, 10)
+
+    print("Choose difficulty:")
+    print("1. Easy (1–10)")
+    print("2. Medium (1–50)")
+    print("3. Hard (1–100)")
+
+    choice = input("Select: ")
+
+    if choice == "1":
+        max_num = 10
+    elif choice == "2":
+        max_num = 50
+    elif choice == "3":
+        max_num = 100
+    else:
+        print("Invalid choice, defaulting to Easy.")
+        max_num = 10
+
+    secret = random.randint(1, max_num)
 
     guess = None
     attempts = 0
-    
+    score = 100
+
+    print(f"\nI'm thinking of a number between 1 and {max_num}...")
+
     while guess != secret:
         try:
             guess = int(input("Take a guess: "))
         except ValueError:
             print("Please enter a number.")
             continue
-            
+
         attempts += 1
-        
+        score -= 5
+
+        diff = abs(guess - secret)
+
         if guess < secret:
             print("Too low!")
         elif guess > secret:
@@ -80,7 +103,16 @@ def guessing_game():
         else:
             print("Correct! You guessed it!")
             print("Attempts:", attempts)
+            print("Score:", score)
             break
+
+        # 🔥 HOT/COLD SYSTEM
+        if diff <= 2:
+            print("🔥 Very close!")
+        elif diff <= 5:
+            print("🌡 Warm")
+        else:
+            print("🧊 Cold")
 
 while True:
     print("\n=== MAIN MENU ===")
