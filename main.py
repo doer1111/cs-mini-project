@@ -1,3 +1,10 @@
+import random
+import json
+import os
+
+HIGH_SCORE_FILE = "highscore.json"
+
+# ---------------- NUMBER ANALYZER ----------------
 def number_analyzer():
     print("\n--- Number Analyzer ---")
 
@@ -23,8 +30,9 @@ def number_analyzer():
 
     print("Square:", number * number)
     print("---")
-   
 
+
+# ---------------- CALCULATOR ----------------
 def calculator():
     print("\n--- Calculator ---")
 
@@ -54,10 +62,28 @@ def calculator():
 
     print("---")
 
+
+# ---------------- HIGH SCORE SYSTEM ----------------
+def load_high_score():
+    if not os.path.exists(HIGH_SCORE_FILE):
+        return None
+
+    try:
+        with open(HIGH_SCORE_FILE, "r") as file:
+            data = json.load(file)
+            return data.get("high_score")
+    except json.JSONDecodeError:
+        return None
+
+
+def save_high_score(score):
+    with open(HIGH_SCORE_FILE, "w") as file:
+        json.dump({"high_score": score}, file)
+
+
+# ---------------- GUESSING GAME ----------------
 def guessing_game():
     print("\n--- Guessing Game ---")
-
-    import random
 
     print("Choose difficulty:")
     print("1. Easy (1–10)")
@@ -82,6 +108,13 @@ def guessing_game():
     attempts = 0
     score = 100
 
+    high_score = load_high_score()
+
+    if high_score is None:
+        print("Current High Score: None")
+    else:
+        print(f"Current High Score: {high_score}")
+
     print(f"\nI'm thinking of a number between 1 and {max_num}...")
 
     while guess != secret:
@@ -104,9 +137,15 @@ def guessing_game():
             print("Correct! You guessed it!")
             print("Attempts:", attempts)
             print("Score:", score)
+
+            if high_score is None or score > high_score:
+                print("🔥 NEW HIGH SCORE!")
+                save_high_score(score)
+            else:
+                print("High score remains:", high_score)
+
             break
 
-        # 🔥 HOT/COLD SYSTEM
         if diff <= 2:
             print("🔥 Very close!")
         elif diff <= 5:
@@ -114,6 +153,8 @@ def guessing_game():
         else:
             print("🧊 Cold")
 
+
+# ---------------- MAIN MENU ----------------
 while True:
     print("\n=== MAIN MENU ===")
     print("1. Number Analyzer")
@@ -128,10 +169,10 @@ while True:
 
     elif choice == "2":
         calculator()
-        
+
     elif choice == "3":
         guessing_game()
-        
+
     elif choice == "4":
         print("Goodbye!")
         break
