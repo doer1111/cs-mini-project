@@ -62,20 +62,23 @@ def guessing_game():
     secret = random.randint(1, 10)
 
     guess = None
-
+    attempts = 0
+    
     while guess != secret:
         try:
             guess = int(input("Take a guess: "))
         except ValueError:
             print("Please enter a number.")
             continue
-
+        attempts += 1
         if guess < secret:
             print("Too low!")
         elif guess > secret:
             print("Too high!")
         else:
             print("Correct! You guessed it!")
+            print("Attempts:", attempts)
+
 
 while True:
     print("\n=== MAIN MENU ===")
