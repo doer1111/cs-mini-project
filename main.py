@@ -70,7 +70,9 @@ def guessing_game():
         except ValueError:
             print("Please enter a number.")
             continue
+            
         attempts += 1
+        
         if guess < secret:
             print("Too low!")
         elif guess > secret:
@@ -78,7 +80,7 @@ def guessing_game():
         else:
             print("Correct! You guessed it!")
             print("Attempts:", attempts)
-
+            break
 
 while True:
     print("\n=== MAIN MENU ===")
